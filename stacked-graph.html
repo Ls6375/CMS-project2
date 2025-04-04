@@ -1,115 +1,109 @@
 <!DOCTYPE html>
+<!-- Student Name : Divyangini Patel -->
+<!-- Student ID : 8961573 -->
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>GitHub Language Contributions (2014–2023)</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        #chart {
-            width: 100%;
-            height: 550px;
-        }
-
-        .area {
-            opacity: 0.85;
-        }
-
-        .axis path,
-        .axis line {
-            fill: none;
-            stroke: black;
-        }
-
-        .axis text {
-            font-size: 12px;
-        }
-
-        .legend text {
-            font-size: 13px;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/styles.css">
+    
 </head>
+
 <body>
-<div id="chart"></div>
+    <nav class="nav-grid">
+        <a class="nav-item" href="index.html">Back to Home</a>
+    </nav>
+    <div id="stacked-chart" class="chart-container"></div>
 
-<script src="https://d3js.org/d3.v5.min.js"></script>
-<script>
-    const margin = {top: 30, right: 160, bottom: 40, left: 60},
-          width = 960 - margin.left - margin.right,
-          height = 500 - margin.top - margin.bottom;
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script>
+        const margin = {
+                top: 30,
+                right: 160,
+                bottom: 40,
+                left: 60
+            },
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
 
-    const svg = d3.select("#chart").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom);
+        const svg = d3.select("#stacked-chart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
 
-    const g = svg.append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
+        svg.append("text")
+            .attr("x", (width + margin.left + margin.right) / 2)
+            .attr("y", 20)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "20px")
+            .attr("font-weight", "bold")
+            .text("GitHub Language Contributions (2014–2023)");
 
-    d3.csv("data/github_language_contributions.csv", d3.autoType).then(function(data) {
-        const keys = data.columns.slice(1); // All languages
+    
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
 
-        const stack = d3.stack()
-            .keys(keys)
-            .order(d3.stackOrderNone)
-            .offset(d3.stackOffsetNone);
+        d3.csv("data/github_language_contributions.csv", d3.autoType).then(function (data) {
+            const keys = data.columns.slice(1); // All languages
 
-        const series = stack(data);
+            const stack = d3.stack()
+                .keys(keys)
+                .order(d3.stackOrderNone)
+                .offset(d3.stackOffsetNone);
 
-        const x = d3.scaleLinear()
-            .domain(d3.extent(data, d => d.Year))
-            .range([0, width]);
+            const series = stack(data);
 
-        const y = d3.scaleLinear()
-            .domain([0, d3.max(series[series.length - 1], d => d[1])])
-            .range([height, 0]);
+            const x = d3.scaleLinear()
+                .domain(d3.extent(data, d => d.Year))
+                .range([0, width]);
 
-        const area = d3.area()
-            .x(d => x(d.data.Year))
-            .y0(d => y(d[0]))
-            .y1(d => y(d[1]));
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(series[series.length - 1], d => d[1])])
+                .range([height, 0]);
 
-        const colors = d3.schemeTableau10;
+            const area = d3.area()
+                .x(d => x(d.data.Year))
+                .y0(d => y(d[0]))
+                .y1(d => y(d[1]));
 
-        g.selectAll(".area")
-            .data(series)
-            .enter().append("path")
-            .attr("class", "area")
-            .attr("fill", (d, i) => colors[i % colors.length])
-            .attr("d", area);
+            const colors = d3.schemeTableau10;
 
-        g.append("g")
-            .attr("transform", `translate(0,${height})`)
-            .call(d3.axisBottom(x).ticks(data.length).tickFormat(d3.format("d")));
+            g.selectAll(".area")
+                .data(series)
+                .enter().append("path")
+                .attr("class", "area")
+                .attr("fill", (d, i) => colors[i % colors.length])
+                .attr("d", area);
 
-        g.append("g")
-            .call(d3.axisLeft(y));
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x).ticks(data.length).tickFormat(d3.format("d")));
 
-        // Legend
-        const legend = svg.append("g")
-            .attr("transform", `translate(${width + margin.left + 10},${margin.top})`);
+            g.append("g")
+                .call(d3.axisLeft(y));
 
-        legend.selectAll("rect")
-            .data(keys)
-            .enter().append("rect")
-            .attr("x", 0)
-            .attr("y", (d, i) => i * 20)
-            .attr("width", 15)
-            .attr("height", 15)
-            .attr("fill", (d, i) => colors[i % colors.length]);
+            // Legend
+            const legend = svg.append("g")
+                .attr("transform", `translate(${width + margin.left + 40},${margin.top})`);
 
-        legend.selectAll("text")
-            .data(keys)
-            .enter().append("text")
-            .attr("x", 20)
-            .attr("y", (d, i) => i * 20 + 12)
-            .text(d => d)
-            .attr("alignment-baseline", "middle");
-    });
-</script>
+            legend.selectAll("rect")
+                .data(keys)
+                .enter().append("rect")
+                .attr("x", 0)
+                .attr("y", (d, i) => i * 20)
+                .attr("width", 15)
+                .attr("height", 15)
+                .attr("fill", (d, i) => colors[i % colors.length]);
+
+            legend.selectAll("text")
+                .data(keys)
+                .enter().append("text")
+                .attr("x", 20)
+                .attr("y", (d, i) => i * 20 + 12)
+                .text(d => d)
+                .attr("alignment-baseline", "middle");
+        });
+    </script>
 </body>
+
 </html>
