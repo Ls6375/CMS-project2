@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+  }
+  
+  .chart-title {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  #pie-chart {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+  }
+  
+  svg {
+    overflow: visible;
+    background-color: transparent;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+    cursor: pointer;
+  }
+  
+  .legend-item:hover {
+    font-weight: bold;
+  }
+  
+  .legend-color {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    border-radius: 3px;
+  }
+  
+  .arc path {
+    transition: opacity 0.3s, transform 0.3s;
+    cursor: pointer;
+  }
+  
+  .arc:hover path {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+  
+  .polyline, .arc text {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .arc:hover .polyline, 
+  .arc:hover text {
+    opacity: 1;
+  }

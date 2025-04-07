@@ -1,0 +1,131 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+  }
+  
+  .nav-grid {
+    display: flex;
+    padding: 15px;
+    background-color: #f8f9fa;
+  }
+  
+  .nav-item {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .chart-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .chart-title {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+  }
+  
+  #bubble-chart {
+    width: 100%;
+    height: 600px;
+    margin-bottom: 20px;
+    background-color: transparent;
+  }
+  
+  svg {
+    display: block;
+    margin: 0 auto;
+    background-color: transparent;
+  }
+  
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: default;
+  }
+  
+  .legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+  
+  .bubble {
+    transition: opacity 0.2s, stroke-width 0.2s;
+    cursor: pointer;
+  }
+  
+  .bubble:hover {
+    opacity: 1 !important;
+    stroke-width: 2.5px !important;
+  }
+
+.bubble {
+    stroke: #fff;
+    stroke-width: 1.5px;
+    opacity: 0.8;
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+  }
+  
+  .bubble:hover {
+    opacity: 1;
+    stroke-width: 2.5px;
+  }
+  
+  .tooltip {
+    position: absolute;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 5px;
+    pointer-events: none;
+    font-size: 14px;
+    line-height: 1.4;
+    transition: opacity 0.3s;
+  }
+  
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #777;
+    shape-rendering: crispEdges;
+    transition: stroke-opacity 0.3s;
+  }
+  
+  .axis text {
+    font-family: Arial;
+    font-size: 12px;
+    fill: #555;
+  }
+  
+  .axis-label {
+    font-size: 13px;
+    fill: #333;
+    font-weight: bold;
+  }
+  
+  /* Pulse animation for hazardous asteroids */
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  .bubble[fill="#e63946"] {
+    animation: pulse 2s infinite;
+  }
