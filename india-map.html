@@ -8,6 +8,18 @@
 		<link rel="stylesheet" href="./css/india-map.css">
 
 		<style>
+			.tooltip {
+	position: absolute;
+	text-align: left;
+	padding: 8px;
+	font-size: 14px;
+	background: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	border-radius: 4px;
+	pointer-events: none;
+}
+
+
 			/* CSS for responsive map */
 			#map {
 					width: 100%;
@@ -112,42 +124,63 @@
             updateMap(this.value);
         });
 
-        function updateMap(type) {
-            currentColorScale.range(colorSchemes[type]);
-            currentColorScale.domain(Object.values(populationMap).map(d => d[type]));
+				function updateMap(type) {
+	currentColorScale.range(colorSchemes[type]);
+	currentColorScale.domain(Object.values(populationMap).map(d => d[type]));
 
-            const projection = d3.geoMercator().fitSize([800, 600], geoData);
-            const path = d3.geoPath().projection(projection);
+	const projection = d3.geoMercator().fitSize([800, 600], geoData);
+	const path = d3.geoPath().projection(projection);
 
-            const paths = g.selectAll("path").data(geoData.features);
+	const paths = g.selectAll("path").data(geoData.features);
 
-            paths.enter()
-                .append("path")
-                .merge(paths)
-                .attr("class", "state")
-                .attr("d", path)
-                .transition()
-                .duration(500)
-                .style("fill", d => {
-                    const stateName = d.properties.st_nm.toUpperCase();
-                    const value = populationMap[stateName]?.[type] || 0;
-                    return currentColorScale(value);
-                });
+	paths.enter()
+		.append("path")
+		.merge(paths)
+		.attr("class", "state")
+		.attr("d", path)
+		.on("mouseover", function (event, d) {
+			const stateName = d.properties.st_nm.toUpperCase();
+			const value = populationMap[stateName]?.[type] || 0;
 
-            paths.exit().remove();
+			d3.select(this)
+				.style("stroke", "#333")
+				.style("stroke-width", 1.5);
 
-            d3.select("#status-message")
-                .text(`Showing ${type.replace("_", " ")} data`)
-                .style("opacity", 1);
+			tooltip.transition().duration(200).style("opacity", 0.9);
+			tooltip.html(`<strong>${d.properties.st_nm}</strong><br>${type.replace("_", " ")}: ${value.toLocaleString()}`)
+				.style("left", (event.pageX + 10) + "px")
+				.style("top", (event.pageY - 28) + "px");
+		})
+		.on("mousemove", function (event) {
+			tooltip.style("left", (event.pageX + 10) + "px")
+				.style("top", (event.pageY - 28) + "px");
+		})
+		.on("mouseout", function () {
+			d3.select(this).style("stroke", null);
+			tooltip.transition().duration(500).style("opacity", 0);
+		})
+		.transition()
+		.duration(500)
+		.style("fill", d => {
+			const stateName = d.properties.st_nm.toUpperCase();
+			const value = populationMap[stateName]?.[type] || 0;
+			return currentColorScale(value);
+		});
 
-            setTimeout(() => {
-                d3.select("#status-message").style("opacity", 0);
-            }, 2000);
+	paths.exit().remove();
 
-            d3.selectAll(".legend-color")
-                .data(colorSchemes[type])
-                .style("background", d => d);
-        }
-    </script>
+	d3.select("#status-message")
+		.text(`Showing ${type.replace("_", " ")} data`)
+		.style("opacity", 1);
+
+	setTimeout(() => {
+		d3.select("#status-message").style("opacity", 0);
+	}, 2000);
+
+	d3.selectAll(".legend-color")
+		.data(colorSchemes[type])
+		.style("background", d => d);
+}
+</script>
 </body>
 </html>
