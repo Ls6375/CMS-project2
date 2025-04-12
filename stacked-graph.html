@@ -2,108 +2,37 @@
 <!-- Student Name : Divyangini Patel -->
 <!-- Student ID : 8961573 -->
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>GitHub Language Contributions (2014–2023)</title>
-    <link rel="stylesheet" href="./css/styles.css">
-    
-</head>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
 
-<body>
-    <nav class="nav-grid">
-        <a class="nav-item" href="index.html">Back to Home</a>
+  <body>
+    <nav class="top-nav">
+      <div class="nav-container">
+        <a href="index.html" class="logo">Data Visualization</a>
+        <div class="nav-links">
+          <a href="bar-chart.html">Bar Chart</a>
+          <a href="line-chart.html">Line Chart</a>
+          <a href="india-map.html">India Map</a>
+          <a href="stacked-graph.html">Stacked Graph</a>
+          <a href="pie-chart.html">Pie Chart</a>
+          <a href="bubble-chart.html">Bubble Chart</a>
+        </div>
+        <div class="burger-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
     </nav>
-    <div id="stacked-chart" class="chart-container"></div>
+    <div id="stacked-chart" class="chart-container">
+      <a class="nav-item" href="index.html">Back to Home</a>
+    </div>
 
     <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script>
-        const margin = {
-                top: 30,
-                right: 160,
-                bottom: 40,
-                left: 60
-            },
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
-
-        const svg = d3.select("#stacked-chart").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom);
-
-        svg.append("text")
-            .attr("x", (width + margin.left + margin.right) / 2)
-            .attr("y", 20)
-            .attr("text-anchor", "middle")
-            .attr("font-size", "20px")
-            .attr("font-weight", "bold")
-            .text("GitHub Language Contributions (2014–2023)");
-
-    
-        const g = svg.append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
-
-        d3.csv("data/github_language_contributions.csv", d3.autoType).then(function (data) {
-            const keys = data.columns.slice(1); // All languages
-
-            const stack = d3.stack()
-                .keys(keys)
-                .order(d3.stackOrderNone)
-                .offset(d3.stackOffsetNone);
-
-            const series = stack(data);
-
-            const x = d3.scaleLinear()
-                .domain(d3.extent(data, d => d.Year))
-                .range([0, width]);
-
-            const y = d3.scaleLinear()
-                .domain([0, d3.max(series[series.length - 1], d => d[1])])
-                .range([height, 0]);
-
-            const area = d3.area()
-                .x(d => x(d.data.Year))
-                .y0(d => y(d[0]))
-                .y1(d => y(d[1]));
-
-            const colors = d3.schemeTableau10;
-
-            g.selectAll(".area")
-                .data(series)
-                .enter().append("path")
-                .attr("class", "area")
-                .attr("fill", (d, i) => colors[i % colors.length])
-                .attr("d", area);
-
-            g.append("g")
-                .attr("transform", `translate(0,${height})`)
-                .call(d3.axisBottom(x).ticks(data.length).tickFormat(d3.format("d")));
-
-            g.append("g")
-                .call(d3.axisLeft(y));
-
-            // Legend
-            const legend = svg.append("g")
-                .attr("transform", `translate(${width + margin.left + 40},${margin.top})`);
-
-            legend.selectAll("rect")
-                .data(keys)
-                .enter().append("rect")
-                .attr("x", 0)
-                .attr("y", (d, i) => i * 20)
-                .attr("width", 15)
-                .attr("height", 15)
-                .attr("fill", (d, i) => colors[i % colors.length]);
-
-            legend.selectAll("text")
-                .data(keys)
-                .enter().append("text")
-                .attr("x", 20)
-                .attr("y", (d, i) => i * 20 + 12)
-                .text(d => d)
-                .attr("alignment-baseline", "middle");
-        });
-    </script>
-</body>
-
+    <script src="./js/stackedGraph.js"></script>
+    <script src="./js/burgerMenu.js"></script>
+  </body>
 </html>

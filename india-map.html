@@ -1,156 +1,71 @@
 <!DOCTYPE html>
 <!-- Student Name : Ajit Behl & Lakhvinder Singh -->
 <html>
+  <head>
+    <title>India Population Map</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/india-map.css" />
+  </head>
 
-<head>
-	<title>India Population Map</title>
-	<script src="https://d3js.org/d3.v7.min.js"></script>
-	<link rel="stylesheet" href="./css/styles.css" />
-	<link rel="stylesheet" href="./css/india-map.css">
-</head>
+  <body>
+    <nav class="top-nav">
+      <div class="nav-container">
+        <a href="index.html" class="logo">Data Visualization</a>
+        <div class="nav-links">
+          <a href="bar-chart.html">Bar Chart</a>
+          <a href="line-chart.html">Line Chart</a>
+          <a href="india-map.html">India Map</a>
+          <a href="stacked-graph.html">Stacked Graph</a>
+          <a href="pie-chart.html">Pie Chart</a>
+          <a href="bubble-chart.html">Bubble Chart</a>
+        </div>
+        <div class="burger-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+    <div id="map-chart" class="chart-container">
+      <a class="nav-item" href="index.html">Back to Home</a>
+      <div class="container">
+        <h1 class="heading">India State Population Map</h1>
+        <select id="populationType">
+          <option value="total_population">Total Population</option>
+          <option value="population_male">Male Population ♂</option>
+          <option value="population_female">Female Population ♀</option>
+        </select>
+        <p id="status-message"></p>
+        <div class="flex">
+          <div class="legend">
+            <div class="legend-item">
+              <div class="legend-color"></div>
+              Low
+            </div>
+            <div class="legend-item">
+              <div class="legend-color"></div>
+              Medium
+            </div>
+            <div class="legend-item">
+              <div class="legend-color"></div>
+              High
+            </div>
+            <div class="legend-item">
+              <div class="legend-color"></div>
+              Very High
+            </div>
+          </div>
+          <div class="zoom-buttons">
+            <button id="zoom-in">+</button>
+            <button id="zoom-out">-</button>
+            <button id="reset">Reset</button>
+          </div>
+        </div>
+        <div id="map"></div>
+      </div>
+    </div>
 
-<body>
-	<nav class="nav-grid">
-		<a class="nav-item" href="index.html">Back to Home</a>
-	</nav>
-	<div id="bar-chart" class="chart-container">
-		<div class="container">
-			<h1 class="heading">India State Population Map</h1>
-			<select id="populationType">
-				<option value="total_population">Total Population</option>
-				<option value="population_male">Male Population ♂</option>
-				<option value="population_female">Female Population ♀</option>
-			</select>
-			<p id="status-message"></p>
-			<div class="flex">
-				<div class="legend">
-					<div class="legend-item">
-						<div class="legend-color"></div> Low
-					</div>
-					<div class="legend-item">
-						<div class="legend-color"></div> Medium
-					</div>
-					<div class="legend-item">
-						<div class="legend-color"></div> High
-					</div>
-					<div class="legend-item">
-						<div class="legend-color"></div> Very High
-					</div>
-				</div>
-				<div class="zoom-buttons">
-					<button id="zoom-in">+</button>
-					<button id="zoom-out">-</button>
-					<button id="reset">Reset</button>
-				</div>
-			</div>
-			<div id="map"></div>
-
-		</div>
-	</div>
-
-	<script>
-		const svg = d3.select("#map").append("svg")
-			.attr("width", 800)
-			.attr("height", 600);
-		const g = svg.append("g");
-		const tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
-
-		const colorSchemes = {
-			total_population: ["#fee0a5", "#fdae61", "#f46d43", "#d73027"], // Orange to red
-			population_male: ["#deebf7", "#9ecae1", "#3182bd", "#08519c"], // Blue shades
-			population_female: ["#fde0dd", "#fa9fb5", "#f768a1", "#ae017e"] // Pink shades
-		};
-
-		let currentColorScale = d3.scaleQuantile().range(colorSchemes.total_population);
-
-		const zoom = d3.zoom()
-			.scaleExtent([1, 8])
-			.on("zoom", (event) => g.attr("transform", event.transform));
-		svg.call(zoom);
-
-		document.getElementById("zoom-in").addEventListener("click", () => svg.transition().duration(750).call(zoom.scaleBy, 1.5));
-		document.getElementById("zoom-out").addEventListener("click", () => svg.transition().duration(750).call(zoom.scaleBy, 0.75));
-		document.getElementById("reset").addEventListener("click", () => svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity));
-
-		let populationMap = {};
-		let geoData;
-
-		d3.csv("data/state_wise_population__2019.csv").then(data => {
-			data.forEach(d => {
-				populationMap[d.State.toUpperCase()] = {
-					total_population: +d.total_population,
-					population_male: +d.population_male,
-					population_female: +d.population_female
-				};
-			});
-			return d3.json("./js/states_india.geojson");
-		}).then(json => {
-			geoData = json;
-			updateMap("total_population");
-		});
-
-		d3.select("#populationType").on("change", function () {
-			updateMap(this.value);
-		});
-
-		function updateMap(type) {
-			currentColorScale.range(colorSchemes[type]);
-			currentColorScale.domain(Object.values(populationMap).map(d => d[type]));
-
-			const projection = d3.geoMercator().fitSize([800, 600], geoData);
-			const path = d3.geoPath().projection(projection);
-
-			const paths = g.selectAll("path").data(geoData.features);
-
-			paths.enter()
-				.append("path")
-				.merge(paths)
-				.attr("class", "state")
-				.attr("d", path)
-				.on("mouseover", function (event, d) {
-					const stateName = d.properties.st_nm.toUpperCase();
-					const value = populationMap[stateName]?.[type] || 0;
-
-					d3.select(this)
-						.style("stroke", "#333")
-						.style("stroke-width", 1.5);
-
-					tooltip.transition().duration(200).style("opacity", 0.9);
-					tooltip.html(`<strong>${d.properties.st_nm}</strong><br>${type.replace("_", " ")}: ${value.toLocaleString()}`)
-						.style("left", (event.pageX + 10) + "px")
-						.style("top", (event.pageY - 28) + "px");
-				})
-				.on("mousemove", function (event) {
-					tooltip.style("left", (event.pageX + 10) + "px")
-						.style("top", (event.pageY - 28) + "px");
-				})
-				.on("mouseout", function () {
-					d3.select(this).style("stroke", null);
-					tooltip.transition().duration(500).style("opacity", 0);
-				})
-				.transition()
-				.duration(500)
-				.style("fill", d => {
-					const stateName = d.properties.st_nm.toUpperCase();
-					const value = populationMap[stateName]?.[type] || 0;
-					return currentColorScale(value);
-				});
-
-			paths.exit().remove();
-
-			d3.select("#status-message")
-				.text(`Showing ${type.replace("_", " ")} data`)
-				.style("opacity", 1);
-
-			setTimeout(() => {
-				d3.select("#status-message").style("opacity", 0);
-			}, 2000);
-
-			d3.selectAll(".legend-color")
-				.data(colorSchemes[type])
-				.style("background", d => d);
-		}
-	</script>
-</body>
-
+    <script src="./js/indiaMap.js"></script>
+  </body>
 </html>

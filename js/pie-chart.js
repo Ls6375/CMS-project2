@@ -1,11 +1,25 @@
+/**
+ * Interactive Pie Chart Visualization
+ * Created by: Hrishikesh Kindre
+ * 
+ * This script creates an interactive pie chart using D3.js to visualize categorical data.
+ * Features include:
+ * - Responsive design that adapts to container size
+ * - Interactive hover effects on pie slices
+ * - Dynamic labels and polylines
+ * - Interactive legend with hover effects
+ * - Smooth transitions and animations
+ */
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Set responsive dimensions
+    // Set responsive dimensions based on container size
     const container = document.getElementById('pie-chart');
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
     const diameter = Math.min(containerWidth, containerHeight) * 0.9;
     const radius = diameter / 2;
     
+    // Create SVG container with responsive dimensions
     const svg = d3.select("#pie-chart")
       .append("svg")
       .attr("width", diameter)
@@ -17,12 +31,15 @@ document.addEventListener('DOMContentLoaded', function() {
       .append("g")
       .attr("transform", `translate(${radius}, ${radius})`);
   
+    // Define color scale for pie slices
     const color = d3.scaleOrdinal(d3.schemeCategory10);
   
+    // Create pie layout generator
     const pie = d3.pie()
       .value(d => d.Value)
       .sort(null);
   
+    // Create arc generators for pie slices and labels
     const arc = d3.arc()
       .innerRadius(0)
       .outerRadius(radius * 0.8);
@@ -31,9 +48,12 @@ document.addEventListener('DOMContentLoaded', function() {
       .innerRadius(radius * 0.9)
       .outerRadius(radius * 0.9);
   
+    // Load and process data
     d3.csv("data/pie-data.csv").then(function(data) {
+      // Convert string values to numbers
       data.forEach(d => d.Value = +d.Value);
   
+      // Generate pie chart data
       const pieData = pie(data);
   
       // Create pie slices
@@ -43,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .append("g")
         .attr("class", "arc");
   
+      // Draw pie slices with styling
       arcs.append("path")
         .attr("d", arc)
         .attr("fill", d => color(d.data.Category))
@@ -81,12 +102,12 @@ document.addEventListener('DOMContentLoaded', function() {
         .style("fill", "#555")
         .style("opacity", 0);
   
-      // Helper function to calculate mid angle
+      // Helper function to calculate mid angle of pie slice
       function midAngle(d) {
         return d.startAngle + (d.endAngle - d.startAngle) / 2;
       }
   
-      // Create legend
+      // Create interactive legend
       const legend = d3.select("#legend")
         .selectAll(".legend-item")
         .data(data)
@@ -94,17 +115,20 @@ document.addEventListener('DOMContentLoaded', function() {
         .append("div")
         .attr("class", "legend-item");
   
+      // Add color squares to legend
       legend.append("div")
         .attr("class", "legend-color")
         .style("background-color", d => color(d.Category));
   
+      // Add text labels to legend
       legend.append("div")
         .text(d => `${d.Category} (${d.Value}%)`)
         .style("font-size", "14px")
         .style("color", "#333");
   
-      // Add hover interactions
+      // Add hover interactions to pie slices
       arcs.on("mouseover", function(event, d) {
+        // Highlight selected slice
         d3.select(this).select("path").style("opacity", 1);
         d3.select(this).select(".polyline").style("opacity", 1);
         d3.select(this).select(".label").style("opacity", 1);
@@ -115,19 +139,21 @@ document.addEventListener('DOMContentLoaded', function() {
           .style("font-weight", "bold");
       })
       .on("mouseout", function(event, d) {
+        // Reset slice appearance
         d3.select(this).select("path").style("opacity", 0.8);
         d3.select(this).select(".polyline").style("opacity", 0);
         d3.select(this).select(".label").style("opacity", 0);
         
-        // Unhighlight legend item
+        // Reset legend item
         legend.filter(ld => ld.Category === d.data.Category)
           .select("div:not(.legend-color)")
           .style("font-weight", "normal");
       });
   
-      // Add click interactions to legend items
+      // Add hover interactions to legend items
       legend.on("mouseover", function(event, d) {
         const category = d.Category;
+        // Highlight corresponding pie slice
         arcs.filter(arc => arc.data.Category === category)
           .select("path").style("opacity", 1);
         arcs.filter(arc => arc.data.Category === category)
@@ -137,6 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .on("mouseout", function(event, d) {
         const category = d.Category;
+        // Reset corresponding pie slice
         arcs.filter(arc => arc.data.Category === category)
           .select("path").style("opacity", 0.8);
         arcs.filter(arc => arc.data.Category === category)

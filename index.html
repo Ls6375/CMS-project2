@@ -1,54 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Visualization Project</title>
+    <link rel="stylesheet" href="./css/styles.css" />
 
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Crime Investigation Data Visualizations</title>
-	<link rel="stylesheet" href="./css/styles.css" />
-</head>
+  <body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+      <div class="nav-container">
+        <a href="index.html" class="logo">Data Visualization</a>
+        <div class="nav-links">
+          <a href="bar-chart.html">Bar Chart</a>
+          <a href="line-chart.html">Line Chart</a>
+          <a href="india-map.html">India Map</a>
+          <a href="stacked-graph.html">Stacked Graph</a>
+          <a href="pie-chart.html">Pie Chart</a>
+          <a href="bubble-chart.html">Bubble Chart</a>
+        </div>
+        <div class="burger-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
 
-<body>
-	<div class="container">
-		<h1>Crime Investigation Data Visualizations</h1>
-		<div class="nav-grid">
-			<a href="bar-chart.html" class="nav-item">Total Cases Bar Chart
-				<br />
-				<small>Created by Lakhvinder</small> <br />
-				<small>Dataset Used: Crime_data.csv</small>
-			</a>
-			<a href="line-chart.html" class="nav-item">Employment in canada chart
-				<br />
-				<small>Created by Ajit Behl</small> <br />
-				<small>Dataset Used: employment-in-canada.csv</small>
-			</a>
-			<a href="india-map.html" class="nav-item">Total State Wise Population India
-				<br />
-				<small>Created by Ajit & Lakhvinder</small> <br />
-				<small>Dataset Used: state_wise_population__2019.csv</small>
-			</a>
-			<a href="stacked-graph.html" class="nav-item">GitHub Language Contributions (2014–2023)
-				<br />
-				<small>Created by Divyangini Patel</small> <br />
-				<small>Dataset Used: github_language_contributions.csv</small>
-			</a>
-			<a href="pie-chart.html" class="nav-item">NASA Mission Types Distribution
-				<br />
-				<small>Created by Hrishikesh Kindre</small> <br />
-				<small>Dataset Used: pie-data.csv</small>
-			</a>
-			<a href="bubble-chart.html" class="nav-item">Near-Earth Objects Analysis
-				<br />
-				<small>Created by Hrishikesh Kindre & Divyangini Patel	</small> <br />
-				<small>Dataset Used: bubble-data.csv</small>
-			</a>
-			<!-- <a href="stacked-bar-chart.html" class="nav-item">Outcomes Stacked Bar Chart</a>
-            <a href="pie-chart.html" class="nav-item">Murder Outcomes Pie Chart</a>
-            <a href="grouped-bar-chart.html" class="nav-item">Pending vs New Cases</a>
-            <a href="scatter-plot.html" class="nav-item">Efficiency Scatter Plot</a>
-            <a href="sankey-diagram.html" class="nav-item">Murder Case Flow Sankey</a> -->
-		</div>
-	</div>
-</body>
+    <div class="container">
+      <!-- Banner Section -->
+      <section class="banner">
+        <div class="banner-content">
+          <h1>Data Visualization Project</h1>
+          <div class="course-info">
+            <p>Course: INFO-3127 Content Management Systems</p>
+          </div>
+          <div class="team-info">
+            <h2>Team Members</h2>
+            <div class="team-members">
+              <div class="member">
+                <p><strong>Ajit Behl</strong></p>
+                <p>Student ID: 8973036</p>
+              </div>
+              <div class="member">
+                <p><strong>Lakhvinder Singh</strong></p>
+                <p>Student ID: 8959531</p>
+              </div>
+              <div class="member">
+                <p><strong>Divyangini Patel</strong></p>
+                <p>Student ID: 8940114</p>
+              </div>
+              <div class="member">
+                <p><strong>Hrishikesh Kindre</strong></p>
+                <p>Student ID: 8847114</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      <!-- Visualizations Section -->
+      <section class="visualizations-section">
+        <h2>Visualizations</h2>
+        <div class="nav-grid">
+          <a href="bar-chart.html" class="nav-item">
+            <h3>Crime Investigation by Case in India</h3>
+            <small>Created by Lakhvinder</small>
+            <small>Dataset Used: Crime_data.csv</small>
+          </a>
+          <a href="line-chart.html" class="nav-item">
+            <h3>Employment in Canada Chart</h3>
+            <small>Created by Ajit Behl</small>
+            <small>Dataset Used: employment-in-canada.csv</small>
+          </a>
+          <a href="india-map.html" class="nav-item">
+            <h3>Total State Wise Population India</h3>
+            <small>Created by Ajit & Lakhvinder</small>
+            <small>Dataset Used: state_wise_population__2019.csv</small>
+          </a>
+          <a href="stacked-graph.html" class="nav-item">
+            <h3>GitHub Language Contributions (2014–2023)</h3>
+            <small>Created by Divyangini Patel</small>
+            <small>Dataset Used: github_language_contributions.csv</small>
+          </a>
+          <a href="pie-chart.html" class="nav-item">
+            <h3>NASA Mission Types Distribution</h3>
+            <small>Created by Hrishikesh Kindre</small>
+            <small>Dataset Used: pie-data.csv</small>
+          </a>
+          <a href="bubble-chart.html" class="nav-item">
+            <h3>Near-Earth Objects Analysis</h3>
+            <small>Created by Hrishikesh Kindre & Divyangini Patel</small>
+            <small>Dataset Used: bubble-data.csv</small>
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer with Data Source Acknowledgments -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>Data Sources</h3>
+            <div class="data-sources">
+                <div class="source-item">
+                    <h4>Crime Data</h4>
+                    <p>Source: National Crime Records Bureau (NCRB), India</p>
+                    <p>URL: <a href="https://www.data.gov.in/resource/crime-head-wise-police-disposal-ipc-crime-cases-crime-head-wise-during-2019" target="_blank">data.gov.in</a></p>
+                </div>
+                <div class="source-item">
+                    <h4>Employment Data</h4>
+                    <p>Source: Kaggle - Employment Rate Canada Dataset</p>
+                    <p>URL: <a href="https://www.kaggle.com/datasets/ortizmacleod/employment-rate-canada" target="_blank">kaggle.com</a></p>
+                </div>
+                <div class="source-item">
+                    <h4>India Population Data</h4>
+                    <p>Source: Government of India - Census 2019</p>
+                    <p>URL: <a href="https://www.kaggle.com/datasets/sureshraj256/india-state-population" target="_blank">kaggle.com</a></p>
+                </div>
+                <div class="source-item">
+                    <h4>GitHub Language Data</h4>
+                    <p>Source: GitHub Archive - Language Statistics</p>
+                    <p>URL: <a href="https://www.githubarchive.org/" target="_blank">githubarchive.org</a></p>
+                </div>
+                <div class="source-item">
+                    <h4>NASA Mission Data</h4>
+                    <p>Source: NASA Open Data Portal</p>
+                    <p>URL: <a href="https://data.nasa.gov/" target="_blank">data.nasa.gov</a></p>
+                </div>
+                <div class="source-item">
+                    <h4>Near-Earth Objects Data</h4>
+                    <p>Source: NASA JPL Small-Body Database</p>
+                    <p>URL: <a href="https://ssd.jpl.nasa.gov/sbdb_query.cgi" target="_blank">jpl.nasa.gov</a></p>
+                </div>
+            </div>
+            
+        </div>
+    </footer>
+
+    <script src="./js/burgerMenu.js"></script>
+  </body>
 </html>

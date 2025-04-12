@@ -2,24 +2,42 @@
 <!-- Student Name : Hrishikesh Kindre -->
 <!-- Student ID : 8929576 -->
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Pie Chart: NASA Mission Types Distribution</title>
-  <link rel="stylesheet" href="./css/styles.css" />
-  <link rel="stylesheet" href="./css/pie-chart.css" />
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="./js/pie-chart.js" defer></script>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pie Chart: NASA Mission Types Distribution</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/pie-chart.css" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="./js/pie-chart.js" defer></script>
+  </head>
 
-<body>
-  <nav class="nav-grid">
-    <a class="nav-item" href="index.html">Back to Home</a>
-  </nav>
+  <body>
+    <nav class="top-nav">
+      <div class="nav-container">
+        <a href="index.html" class="logo">Data Visualization</a>
+        <div class="nav-links">
+          <a href="bar-chart.html">Bar Chart</a>
+          <a href="line-chart.html">Line Chart</a>
+          <a href="india-map.html">India Map</a>
+          <a href="stacked-graph.html">Stacked Graph</a>
+          <a href="pie-chart.html">Pie Chart</a>
+          <a href="bubble-chart.html">Bubble Chart</a>
+        </div>
+        <div class="burger-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
 
-  <div class="chart-container">
-    <div class="chart-title">NASA Mission Types Distribution</div>
-    <div id="pie-chart"></div>
-    <div id="legend" class="legend"></div>
-  </div>
-</body>
+    <div class="chart-container">
+      <a class="nav-item" href="index.html">Back to Home</a>
+
+      <div class="chart-title">NASA Mission Types Distribution</div>
+      <div id="pie-chart"></div>
+      <div id="legend" class="legend"></div>
+    </div>
+    <script src="./js/burgerMenu.js"></script>
+  </body>
 </html>

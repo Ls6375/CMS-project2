@@ -16,12 +16,6 @@ body {
     color: #333;
   }
   
-  .chart-container {
-    width: 100%;
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
-  }
   
   .chart-title {
     margin-bottom: 20px;

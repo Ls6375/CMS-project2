@@ -2,330 +2,88 @@
 <!-- Student Name : Ajit Bhel -->
 <!-- Student ID : 8973036 -->
 <html lang="en">
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Canadian Employment Trends Comparison</title>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <link rel="stylesheet" href="./css/styles.css" />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"
-      integrity="sha512-a+/SD0dbGeXTN4AA5F1dDZqsPvXKKyS1bvU2z5ElpKNJ4xQlOMUs/1+suA+j+kj5nAAya+VmT5HUKZmazluxVQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <style></style>
-  </head>
-  <body>
-    <nav class="nav-grid">
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <title>Canadian Employment Trends Comparison</title>
+      <script src="https://d3js.org/d3.v6.min.js"></script>
+      <link rel="stylesheet" href="./css/styles.css" />
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"
+        integrity="sha512-a+/SD0dbGeXTN4AA5F1dDZqsPvXKKyS1bvU2z5ElpKNJ4xQlOMUs/1+suA+j+kj5nAAya+VmT5HUKZmazluxVQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      ></script>
+      <style></style>
+    </head>
+    <body>
+      <nav class="top-nav">
+        <div class="nav-container">
+          <a href="index.html" class="logo">Data Visualization</a>
+          <div class="nav-links">
+            <a href="bar-chart.html">Bar Chart</a>
+            <a href="line-chart.html">Line Chart</a>
+            <a href="india-map.html">India Map</a>
+            <a href="stacked-graph.html">Stacked Graph</a>
+            <a href="pie-chart.html">Pie Chart</a>
+            <a href="bubble-chart.html">Bubble Chart</a>
+          </div>
+          <div class="burger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </nav>
+      <div id="line-chart" class="chart-container" />
       <a class="nav-item" href="index.html">Back to Home</a>
-    </nav>
-    <div id="bar-chart" class="chart-container" />
-    <h1>Canadian Employment Trends Comparison</h1>
-    <div id="controls">
-      <label for="sex-select">Select Sex: </label>
-      <select id="sex-select">
-        <option value="Both sexes">Both sexes</option>
-        <option value="Females">Females</option>
-        <option value="Males">Males</option>
-      </select>
-      <br /><br />
-      <label for="province-select1">Select Province 1: </label>
-      <select id="province-select1">
-        <option value="">--Select a province--</option>
-        <option value="Alberta">Alberta</option>
-        <option value="British Columbia">British Columbia</option>
-        <option value="Manitoba">Manitoba</option>
-        <option value="New Brunswick">New Brunswick</option>
-        <option value="Newfoundland and Labrador">
-          Newfoundland and Labrador
-        </option>
-        <option value="Nova Scotia">Nova Scotia</option>
-        <option value="Ontario">Ontario</option>
-        <option value="Prince Edward Island">Prince Edward Island</option>
-        <option value="Quebec">Quebec</option>
-        <option value="Saskatchewan">Saskatchewan</option>
-      </select>
-      <label for="province-select2">Select Province 2 (optional): </label>
-      <select id="province-select2">
-        <option value="">--Select a province--</option>
-        <option value="Alberta">Alberta</option>
-        <option value="British Columbia">British Columbia</option>
-        <option value="Manitoba">Manitoba</option>
-        <option value="New Brunswick">New Brunswick</option>
-        <option value="Newfoundland and Labrador">
-          Newfoundland and Labrador
-        </option>
-        <option value="Nova Scotia">Nova Scotia</option>
-        <option value="Ontario">Ontario</option>
-        <option value="Prince Edward Island">Prince Edward Island</option>
-        <option value="Quebec">Quebec</option>
-        <option value="Saskatchewan">Saskatchewan</option>
-      </select>
-    </div>
-    <div id="chart"></div>
-    <div class="tooltip" id="tooltip"></div>
+      <h1>Canadian Employment Trends Comparison</h1>
+      <div id="controls">
+        <label for="sex-select">Select Sex: </label>
+        <select id="sex-select">
+          <option value="Both sexes">Both sexes</option>
+          <option value="Females">Females</option>
+          <option value="Males">Males</option>
+        </select>
+        <br /><br />
+        <label for="province-select1">Select Province 1: </label>
+        <select id="province-select1">
+          <option value="">--Select a province--</option>
+          <option value="Alberta">Alberta</option>
+          <option value="British Columbia">British Columbia</option>
+          <option value="Manitoba">Manitoba</option>
+          <option value="New Brunswick">New Brunswick</option>
+          <option value="Newfoundland and Labrador">
+            Newfoundland and Labrador
+          </option>
+          <option value="Nova Scotia">Nova Scotia</option>
+          <option value="Ontario">Ontario</option>
+          <option value="Prince Edward Island">Prince Edward Island</option>
+          <option value="Quebec">Quebec</option>
+          <option value="Saskatchewan">Saskatchewan</option>
+        </select>
+        <label for="province-select2">Select Province 2 (optional): </label>
+        <select id="province-select2">
+          <option value="">--Select a province--</option>
+          <option value="Alberta">Alberta</option>
+          <option value="British Columbia">British Columbia</option>
+          <option value="Manitoba">Manitoba</option>
+          <option value="New Brunswick">New Brunswick</option>
+          <option value="Newfoundland and Labrador">
+            Newfoundland and Labrador
+          </option>
+          <option value="Nova Scotia">Nova Scotia</option>
+          <option value="Ontario">Ontario</option>
+          <option value="Prince Edward Island">Prince Edward Island</option>
+          <option value="Quebec">Quebec</option>
+          <option value="Saskatchewan">Saskatchewan</option>
+        </select>
+      </div>
+      <div id="chart"></div>
+      <div class="tooltip" id="tooltip"></div>
 
-    <script>
-      // Chart dimensions and margins
-      const margin = { top: 50, right: 150, bottom: 50, left: 70 },
-        width = 1000 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
-
-      // Array of all provinces (the CSV columns)
-      const provinces = [
-        "Alberta",
-        "British Columbia",
-        "Manitoba",
-        "New Brunswick",
-        "Newfoundland and Labrador",
-        "Nova Scotia",
-        "Ontario",
-        "Prince Edward Island",
-        "Quebec",
-        "Saskatchewan",
-      ];
-
-      // Parse the 'month' field (format "YYYY-MM")
-      const parseMonth = d3.timeParse("%Y-%m");
-
-      // Create SVG container
-      const svg = d3
-        .select("#chart")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-
-      // Tooltip for interactivity
-      const tooltip = d3.select("#tooltip");
-
-      // Add legend group
-      const legend = svg
-        .append("g")
-        .attr("class", "legend")
-        .attr("transform", `translate(${width + 20}, 0)`);
-
-      // Global variable to hold all loaded CSV data
-      let allData = [];
-
-      // Set up scales (x remains constant; y will update based on filtered data)
-      const xScale = d3.scaleTime().range([0, width]);
-      const yScale = d3.scaleLinear().range([height, 0]);
-
-      // Color scale using a softer color palette
-      const colorScale = d3.scaleOrdinal(d3.schemeSet2).domain(provinces);
-
-      // Draw x-axis (will be updated later with data)
-      const xAxisGroup = svg
-        .append("g")
-        .attr("class", "x-axis")
-        .attr("transform", `translate(0,${height})`);
-      // Draw y-axis (will be updated later)
-      const yAxisGroup = svg.append("g").attr("class", "y-axis");
-
-      // Add axis labels
-      svg
-        .append("text")
-        .attr("class", "x-label")
-        .attr("text-anchor", "middle")
-        .attr("x", width / 2)
-        .attr("y", height + 40)
-        .text("Year");
-
-      svg
-        .append("text")
-        .attr("class", "y-label")
-        .attr("text-anchor", "middle")
-        .attr("transform", "rotate(-90)")
-        .attr("x", -height / 2)
-        .attr("y", -50)
-        .text("Employment (thousands)");
-
-      // Load CSV data and store globally
-      d3.csv("data/employment-in-canada.csv")
-        .then((data) => {
-          allData = data;
-
-          // Set xScale domain based on the entire dataset's date range
-          const dates = data.map((d) => parseMonth(d.month));
-          xScale.domain(d3.extent(dates));
-
-          // Draw initial axes
-          xAxisGroup.call(d3.axisBottom(xScale).ticks(10));
-          yAxisGroup.call(d3.axisLeft(yScale));
-
-          // Initial prompt text
-          svg
-            .append("text")
-            .attr("id", "prompt")
-            .attr("x", width / 2)
-            .attr("y", height / 2)
-            .attr("text-anchor", "middle")
-            .attr("fill", "#555")
-            .text("Please select province(s) and sex from the controls.");
-        })
-        .catch((error) => {
-          console.error("Error loading CSV data:", error);
-        });
-
-      // Set up event listeners for the dropdowns
-      d3.select("#sex-select").on("change", updateChart);
-      d3.select("#province-select1").on("change", updateChart);
-      d3.select("#province-select2").on("change", updateChart);
-
-      // Update chart based on selections
-      function updateChart() {
-        // Remove any existing lines, circles, and prompt text
-        svg.selectAll(".line").remove();
-        svg.selectAll("circle").remove();
-        svg.select("#prompt").remove();
-        legend.selectAll("*").remove(); // Clear the legend
-
-        // Get current selections
-        const selectedSex = d3.select("#sex-select").property("value");
-        const province1 = d3.select("#province-select1").property("value");
-        const province2 = d3.select("#province-select2").property("value");
-
-        // Build an array of selected provinces (avoid duplicates)
-        let selectedProvinces = [];
-        if (province1) selectedProvinces.push(province1);
-        if (province2 && province2 !== province1)
-          selectedProvinces.push(province2);
-
-        if (selectedProvinces.length === 0) {
-          svg
-            .append("text")
-            .attr("id", "prompt")
-            .attr("x", width / 2)
-            .attr("y", height / 2)
-            .attr("text-anchor", "middle")
-            .attr("fill", "#555")
-            .text("Please select at least one province.");
-          return;
-        }
-
-        // Filter raw data for rows where variable is "Employment" and sex matches
-        const filteredRows = allData.filter(
-          (d) =>
-            d.variable.trim() === "Employment" && d.sex.trim() === selectedSex
-        );
-
-        // Pivot filtered data from wide to long format for the selected provinces
-        let longData = [];
-        filteredRows.forEach((d) => {
-          const date = parseMonth(d.month);
-          selectedProvinces.forEach((prov) => {
-            const val = +d[prov];
-            if (!isNaN(val)) {
-              longData.push({
-                date: date,
-                province: prov,
-                value: val,
-                month: d.month, // Store original month string for tooltip
-              });
-            }
-          });
-        });
-
-        // Group the long data by province
-        const groupedData = d3
-          .groups(longData, (d) => d.province)
-          .map(([key, values]) => ({
-            province: key,
-            values: values.sort((a, b) => a.date - b.date),
-          }));
-
-        // Update yScale domain based on filtered data
-        yScale.domain([0, d3.max(longData, (d) => d.value) * 1.1]).nice();
-        yAxisGroup.transition().duration(1000).call(d3.axisLeft(yScale));
-
-        // Create a line generator function
-        const lineGen = d3
-          .line()
-          .x((d) => xScale(d.date))
-          .y((d) => yScale(d.value));
-
-        // Update the legend
-        groupedData.forEach((provGroup, i) => {
-          const legendItem = legend
-            .append("g")
-            .attr("transform", `translate(0, ${i * 20})`);
-
-          legendItem
-            .append("rect")
-            .attr("width", 15)
-            .attr("height", 15)
-            .attr("fill", colorScale(provGroup.province));
-
-          legendItem
-            .append("text")
-            .attr("x", 20)
-            .attr("y", 12)
-            .text(provGroup.province);
-        });
-
-        // Draw the lines and animate them
-        groupedData.forEach((provGroup) => {
-          // Create a safe class name
-          const safeClassName = provGroup.province.replace(/[\s&]+/g, "-");
-
-          // Draw the line
-          const path = svg
-            .append("path")
-            .datum(provGroup.values)
-            .attr("class", `line ${safeClassName}`)
-            .attr("d", lineGen)
-            .style("stroke", colorScale(provGroup.province))
-            .style("stroke-width", "1.5px")
-            .style("opacity", 0.8);
-
-          // Animate the line drawing using stroke-dasharray technique
-          const totalLength = path.node().getTotalLength();
-          path
-            .attr("stroke-dasharray", totalLength + " " + totalLength)
-            .attr("stroke-dashoffset", totalLength)
-            .transition()
-            .duration(2000)
-            .ease(d3.easeLinear)
-            .attr("stroke-dashoffset", 0);
-
-          // Draw circles for each data point
-          const circles = svg
-            .selectAll(`circle.${safeClassName}`)
-            .data(provGroup.values)
-            .enter()
-            .append("circle")
-            .attr("class", safeClassName)
-            .attr("r", 2)
-            .attr("cx", (d) => xScale(d.date))
-            .attr("cy", (d) => yScale(d.value))
-            .attr("fill", colorScale(provGroup.province))
-            .attr("opacity", 0)
-            .on("mouseover", function (event, d) {
-              tooltip
-                .style("opacity", 1)
-                .html(
-                  `<strong>${d.province}</strong><br/><strong>Month:</strong> ${
-                    d.month
-                  }<br/><strong>Employment:</strong> ${d.value.toLocaleString()} thousand`
-                )
-                .style("left", event.pageX + 10 + "px")
-                .style("top", event.pageY - 28 + "px");
-            })
-            .on("mouseout", function () {
-              tooltip.style("opacity", 0);
-            });
-
-          // Animate the circles separately
-          circles
-            .transition()
-            .delay((d, i) => i * 10)
-            .duration(500)
-            .attr("opacity", 1);
-        });
-      }
-    </script>
-  </body>
+      <script src="./js/lineChart.js"></script>
+      <script src="./js/burgerMenu.js"></script>
+    </body>
+  </html>
 </html>
